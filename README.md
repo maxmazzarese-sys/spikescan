@@ -1,2 +1,5 @@
-# spikescan
-SpikeScan — penny stock catalyst desk (news, 13G/insider, unusual volume)
+# SpikeScan
+
+Penny-catalyst desk. Sign up or log in with email + password only.
+
+Live on Vercel after deploy.

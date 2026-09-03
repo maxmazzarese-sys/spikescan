@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpikeScan — Penny catalyst desk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section id="auth" class="auth-shell">
+    <div class="auth-brand">
+      <div class="logo-row">
+        <div class="mark">S</div>
+        <div class="logo-word">SPIKE<span>SCAN</span></div>
+      </div>
+      <div class="auth-hero">
+        <h1>Find the filing before the headline. Find the volume before the spike.</h1>
+        <p>A professional desk that scores sub-$5 names on SEC 13G/13D and Form 4 flow, news catalysts, and unusual volume — the same stack that flagged GoPro when Markiplier crossed 8.5%.</p>
+        <div class="signal-pills">
+          <span class="pill">Schedule 13G / 13D</span>
+          <span class="pill">Form 4 insider tape</span>
+          <span class="pill">News + M&amp;A</span>
+          <span class="pill">Volume vs 30-day</span>
+        </div>
+      </div>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-card">
+        <div class="tabs">
+          <button type="button" data-tab="login" class="active">Log in</button>
+          <button type="button" data-tab="signup">Sign up</button>
+        </div>
+        <div class="auth-err" id="authErr"></div>
+        <form id="loginForm">
+          <div class="field">
+            <label>Email</label>
+            <input id="loginEmail" type="email" autocomplete="username" placeholder="you@desk.com" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input id="loginPass" type="password" autocomplete="current-password" required />
+          </div>
+          <button class="btn-primary" type="submit">Enter desk</button>
+        </form>
+        <form id="signupForm" class="app-hidden">
+          <div class="field">
+            <label>Email</label>
+            <input id="suEmail" type="email" autocomplete="email" placeholder="you@desk.com" required />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input id="suPass" type="password" autocomplete="new-password" minlength="6" placeholder="At least 6 characters" required />
+          </div>
+          <button class="btn-primary" type="submit">Create desk access</button>
+        </form>
+        <button class="btn-ghost" type="button" id="demoBtn">Use demo analyst account</button>
+        <p class="fine">Demo: analyst@spikescan.io / spike2026. Snapshot prices as of 3 Sep 2026 close. Not a broker. Not advice.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="app" class="app app-hidden">
+    <aside class="sidebar">
+      <div class="logo-row" style="padding: 4px 8px 8px">
+        <div class="mark">S</div>
+        <div class="logo-word">SPIKE<span>SCAN</span></div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-page="overview"><span class="dot"></span>Overview</button>
+        <button data-page="signals"><span class="dot"></span>Catalyst board</button>
+        <button data-page="scanner"><span class="dot"></span>Scanner</button>
+        <button data-page="insider"><span class="dot"></span>Insider tape</button>
+        <button data-page="news"><span class="dot"></span>News desk</button>
+        <button data-page="watch"><span class="dot"></span>My desk</button>
+      </nav>
+      <div class="side-foot">
+        <div class="user-chip">
+          <div class="avatar" id="avatar">AC</div>
+          <div>
+            <div id="userName">Analyst</div>
+            <small id="userMeta">Pro desk</small>
+          </div>
+        </div>
+        <button class="logout" id="logoutBtn">Sign out</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <input class="search" id="topSearch" placeholder="Jump ticker — try GPRO, EOSE, RCT" />
+        <div class="live"><span class="pulse"></span> Snapshot · <span id="asOf">2026-09-03</span></div>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="h-row">
+          <div>
+            <h2>Desk overview</h2>
+            <p>Sub-$5 universe scored on filings, tape, and headlines. Featured case: GPRO.</p>
+          </div>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="lbl">Names scanned</div><div class="val" id="kpiScan">—</div><div class="sub">US listed · price ≤ $5 filter</div></div>
+          <div class="kpi"><div class="lbl">Live signals</div><div class="val" id="kpiSig">—</div><div class="sub">Score ≥ 58 this session</div></div>
+          <div class="kpi"><div class="lbl">Insider / 13G</div><div class="val" id="kpiIns">—</div><div class="sub">Buys and passive stakes</div></div>
+          <div class="kpi"><div class="lbl">Median vol spike</div><div class="val" id="kpiVol">—</div><div class="sub">vs 30-day average</div></div>
+        </div>
+        <div class="grid-2">
+          <article class="card featured">
+            <div class="feat-head">
+              <div>
+                <div class="ticker-lg" id="featTicker">GPRO</div>
+                <div style="color:var(--muted)" id="featName">GoPro, Inc.</div>
+                <div id="featTags" class="meta-row" style="margin-top:10px"></div>
+              </div>
+              <div style="text-align:right">
+                <div class="price-lg" id="featPrice">$1.39</div>
+                <div id="featChg" class="chg neg"></div>
+                <div id="featWeek" class="chg pos" style="font-size:12px"></div>
+                <div style="margin-top:8px" id="featSpark"></div>
+                <div style="color:var(--gold-2);font-size:12px;margin-top:4px">Conviction <span id="featScore">94</span></div>
+              </div>
+            </div>
+            <p class="thesis" id="featThesis"></p>
+            <div class="why-box" id="featWhy"></div>
+            <div class="meta-row" id="featMeta" style="margin-top:12px"></div>
+            <ul class="timeline" id="featTime" style="margin-top:8px"></ul>
+          </article>
+          <article class="card">
+            <h3>How the desk scores a name</h3>
+            <ol class="timeline">
+              <li><time>01</time><div><b>Filings first.</b> Schedule 13G/13D and Form 4 cluster buys print before most retail headlines.</div></li>
+              <li><time>02</time><div><b>Ask why they bought.</b> Celebrity / operator / activist context — Markiplier’s filmmaking thesis on GPRO is the template.</div></li>
+              <li><time>03</time><div><b>Confirm on volume.</b> 3×+ the 30-day average is treated as real demand, not a quiet drift.</div></li>
+              <li><time>04</time><div><b>News as confirmation, not the start.</b> Bloomberg on 30 Aug was late relative to the 20 Aug 13G.</div></li>
+            </ol>
+            <p class="fine" style="margin-top:16px">GPRO is shown as a worked example: the spike already happened. Use the board to hunt the next 13G that has not hit a homepage yet.</p>
+          </article>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <h3>Highest-conviction board</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th><th>Last</th><th>Session</th><th>5-day</th><th>Volume</th><th>Cap</th><th>Score</th><th>Status</th><th>Tape</th>
+                </tr>
+              </thead>
+              <tbody id="signalRows"></tbody>
+            </table>
+          </div>
+        </div>
+        <p class="disclaimer">Educational research desk. Snapshot compiled from public prices and news as of 3 September 2026 (GPRO close $1.39, −17.75% on 173M shares after a three-session melt-up from $0.60). Penny stocks can lose most of their value. This is not a recommendation to buy or sell any security.</p>
+      </section>
+
+      <section class="page" id="page-signals">
+        <div class="h-row">
+          <div>
+            <h2>Catalyst board</h2>
+            <p>Click a row for the full filing / news / volume brief.</p>
+          </div>
+        </div>
+        <div id="detail" class="detail"></div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th><th>Last</th><th>Session</th><th>5-day</th><th>Volume</th><th>Cap</th><th>Score</th><th>Status</th><th>Tape</th>
+                </tr>
+              </thead>
+              <tbody id="scannerClone"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-scanner">
+        <div class="h-row">
+          <div>
+            <h2>Scanner</h2>
+            <p id="scanCount">—</p>
+          </div>
+        </div>
+        <div class="filters">
+          <input id="scanQ" placeholder="Filter ticker, name, tag" />
+          <select id="scanPrice">
+            <option value="5">Price ≤ $5</option>
+            <option value="2">Price ≤ $2</option>
+            <option value="1">Price ≤ $1</option>
+          </select>
+          <select id="scanVol">
+            <option value="0">Any volume</option>
+            <option value="2">Vol ≥ 2×</option>
+            <option value="3" selected>Vol ≥ 3×</option>
+            <option value="5">Vol ≥ 5×</option>
+          </select>
+          <select id="scanCat">
+            <option value="all">All catalysts</option>
+            <option value="insider">Insider / 13G / celebrity</option>
+            <option value="news">News / M&amp;A</option>
+            <option value="volume">Volume spike</option>
+            <option value="short">High short interest</option>
+          </select>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th><th>Last</th><th>Session</th><th>5-day</th><th>Volume</th><th>Cap</th><th>Score</th><th>Status</th><th>Tape</th>
+                </tr>
+              </thead>
+              <tbody id="scannerRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-insider">
+        <div class="h-row">
+          <div>
+            <h2>Insider + 13G tape</h2>
+            <p>Form 4 open-market buys and Schedule 13G/13D stakes in the sub-$5 set.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th><th>Ticker</th><th>Holder</th><th>Type</th><th>Shares</th><th>Notional</th><th>Context</th>
+                </tr>
+              </thead>
+              <tbody id="insiderRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-news">
+        <div class="h-row">
+          <div>
+            <h2>News desk</h2>
+            <p>Headlines tagged to tickers already on the board.</p>
+          </div>
+        </div>
+        <div class="card" id="newsList"></div>
+      </section>
+
+      <section class="page" id="page-watch">
+        <div class="h-row">
+          <div>
+            <h2>My desk</h2>
+            <p>Local watchlist for this browser profile.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th><th>Last</th><th>Session</th><th>5-day</th><th>Volume</th><th>Cap</th><th>Score</th><th>Status</th><th>Tape</th>
+                </tr>
+              </thead>
+              <tbody id="watchRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
